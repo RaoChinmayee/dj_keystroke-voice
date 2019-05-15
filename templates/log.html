@@ -1,0 +1,40 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="/static/log.css">
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js" type="text/javascript">
+
+	</script>
+</head>
+<body>
+
+<div class="full">
+	<div class="bg"></div>
+<form class="site-form" action= "{% url 'Log' %}" method="post" id="site-form" name="site-form">
+<div class="box_v" style="margin-top:20%">		
+		{% csrf_token %}
+		
+  <h2 style="margin-left: 25%;font-family: Comic Sans MS; ">Enter username</h2>
+
+  <input type="text" id="username" class="username" name="username" style="align-self: center;margin-left: 25%;"><br>
+  
+
+		<div class="sub">
+		<input type="submit" value="Login" onclick="get_name()" style="margin-left: 28%; margin-top:3%; ">
+        </div>
+</div>
+</form> 
+
+<script type="text/javascript">
+function get_name(){
+
+	var input_text=document.forms["site-form"]["username"].value;
+	up_data={'dict':JSON.stringify(input_text),  'csrfmiddlewaretoken': "{{ csrf_token }}"};
+	$.ajax({type:'POST',url:"{% url 'Log' %}", data:up_data, async:false});
+}
+</script>
+</div>
+</body>
+</html>

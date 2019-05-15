@@ -1,0 +1,395 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mainpage</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'mainpage.css' %}" >
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js" type="text/javascript">
+
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div class = "full">
+	<div class="bg"> </div>
+
+
+
+	<form class="log_form"  action="{% url 'logout' %}" method="POST" >
+		{% csrf_token %}
+		<input class="logout_btn" type="submit" name="logout" value="Logout">
+
+	</form>
+	<h2 class="head" id="head"> Type the sentences displayed in text box </h2>
+
+
+	<form class="my_form" name="my_form" action="{%url 'mainpage:voice'%}">
+		{% csrf_token %}
+
+		<div class="box">
+		<dl>
+
+		<dt><label class="data" for="user_text">any transition is easier if you believe in yourself and your talent</label></dt>
+		</br>
+		<dt><textarea class="user_text1" id="user_text1" name="user_text1" style="width:650px;height:25px"  onkeydown="func_down(event)" onkeyup="func_up(event)"  autofocus onpaste="return false"> </textarea></dt>
+		<dt><input class="submit_btn1"  id="myBtn1" type="button" name="submit" value="Submit" visibility="hidden"  onclick="submit_func1()" style="visibility:hidden;"></dt>
+		<dt><label class="data" for="user_text">it does not matter how slowly you go as long as you do not stop</label></dt>
+		</br>
+		<dt><textarea class="user_text2" id="user_text2" name="user_text2"  style="width:650px;height:25px;" onkeydown="func_down(event)" onkeyup="func_up(event)"  autofocus onpaste="return false"> </textarea></dt>
+		<dt><input class="submit_btn2"  id="myBtn2" type="button" name="submit" value="Submit" visibility="hidden" onclick="submit_func2()" style="visibility:hidden;"></dt>
+		<dt><label class="data" for="user_text">we know what we are but know not what we may be</label></dt>
+		</br>
+		<dt><textarea class="user_text3" id="user_text3" name="user_text3"  style="width:650px;height:25px" onkeydown="func_down(event)" onkeyup="func_up(event)"  autofocus onpaste="return false"> </textarea></dt>
+		<dt>
+		<input class="submit_btn3"  id="myBtn3" type="button" name="submit" value="Submit" visibility="hidden" onclick="submit_func3()" style="visibility:hidden;"></dt>
+		<dt><label class="data" for="user_text">you cant always have a good day but you can always face a bad day with a good attitude</label></dt>
+		</br>
+		<dt><textarea class="user_text4" id="user_text4" name="user_text4" style="width:650px;height:25px" onkeydown="func_down(event)" onkeyup="func_up(event)"  autofocus onpaste="return false"> </textarea></dt>
+		<dt>
+		<input class="submit_btn4"  id="myBtn4" type="button" name="submit" value="Submit" visibility="hidden" onclick="submit_func4()" style="visibility:hidden;"></dt>
+		<dt><label class="data" for="user_text">the best preparation for tomorrow is doing your best today</label></dt>
+		</br>
+		<dt><textarea class="user_text5" id="user_text5" name="user_text5"  style="width:650px;height:25px" onkeydown="func_down(event)" onkeyup="func_up(event)"  autofocus onpaste="return false"> </textarea></dt>
+		<dt>
+		<input class="submit_btn5"  id="myBtn5" type="button" name="submit" value="Submit" visibility="hidden" onclick="submit_func()" style="visibility:hidden;"></dt>
+		<dt>
+		<input class="submit_btn6"  id="myBtn6" type="submit" name="submit" value="Submit" visibility="hidden" onclick="submit_func6()" style="visibility:hidden;"></dt>
+		</dl>
+		<dt>
+			<p class="inst" id="inst">Press Enter to submit </p>
+ 		</dt>
+
+	</div>
+	</form>
+
+
+
+
+<script type="text/javascript">
+	var i_up=0;
+	var i_dn=0;
+	var list_index=[0,0,0,0,0];
+	var sent="{{data}}";
+	console.log("..........")
+	console.log(sent)
+	var x;
+	var dict={};
+    var dict_array=[];
+    var sen_index=0;
+    console.log("iniiiiiiiiiiiiiiitialize")
+//	milli_sec=d.getMilliSeconds();
+
+	var time_list=[];
+	var input_sentence="";
+	/////////////////////////////
+    element1=document.getElementById("user_text2");
+   
+    
+    element2=document.getElementById("user_text3");
+    element3=document.getElementById("user_text4");
+    element4=document.getElementById("user_text5");
+
+    element1.disabled=true;
+    element2.disabled=true;
+    element3.disabled=true;
+    element4.disabled=true;
+	////////////////////////////
+
+
+	function func_up(event){
+
+		var d=new Date();
+		x=event.key;
+		console.log(x);
+		console.log("in func up");
+		console.log(dict_array[0]);
+		console.log("in func up");
+
+//		document.getElementById("demo").innerHTML = i ;
+
+
+       		dict[i_up+x+1+"up"]=d.getTime();
+
+			console.log(dict);
+			i_up=i_up+1;
+			list_index[sen_index]=list_index[sen_index]+1;
+
+	}
+
+	function func_down(event){
+
+		var d=new Date();
+		x=event.key;
+		console.log(x);
+		var button_index= sen_index+1
+
+//		document.getElementById("demo").innerHTML = i ;
+		if (event.keyCode === 13){
+
+			
+			var button_str = "myBtn"+button_index
+			document.getElementById(button_str).click();
+		}
+
+       	dict[i_dn+x+1+"dn"]=d.getTime();
+
+		i_dn=i_dn+1;
+		list_index[sen_index]=list_index[sen_index]+1;
+    }
+
+    function submit_func(){
+		var text_index = sen_index+1
+		var text_str = "user_text"+text_index
+		var input_text=document.forms["my_form"][text_str].value;
+		console.log(input_text);
+		console.log("{{data}}");
+
+		if (input_text.trim()=="the best preparation for tomorrow is doing your best today")
+		{ 
+			console.log("before");
+			console.log(dict_array[0]);
+			dict_array.push(dict);
+			//console.log(dict_array[sen_index]);
+			//console.log(sen_index);
+			console.log(dict_array[0]);
+            dict={};
+
+            
+        	console.log("after empty dict..........")
+			console.log(dict_array[0]);
+			document.getElementById("myBtn6").click();
+
+
+			//document.getElementById("text_str").value = input_text;
+
+		}
+		else
+		{
+			alert("Please enter correct sentence");
+			dict={};
+			list_index[sen_index]=0;
+			document.getElementById(text_str).value = "";
+
+		}
+    
+
+
+    }
+
+
+	function submit_func6(){
+			console.log('the timer started>>>>>>>>>>>>')
+			let timerInterval
+			Swal.fire({
+  			title: 'Saving you response',
+  			
+  			timer: 1000,
+  			onBeforeOpen: () => {
+    		Swal.showLoading()
+    		
+  			},
+  			onClose: () => {
+    		clearInterval(timerInterval)
+			}
+			}).then((result) => {
+			if (
+			// Read more about handling dismissals
+			result.dismiss === Swal.DismissReason.timer
+			) {
+			console.log('I was closed by the timer')
+			}
+			})
+
+			up_data={'dict':JSON.stringify(dict_array), 'list_index':list_index, 'csrfmiddlewaretoken': "{{ csrf_token }}"};
+			console.log(up_data);
+			console.log("Submitted..............")
+			$.ajax({type:'POST',url:"{% url 'mainpage:update' %}", data:up_data, async:false});
+			console.log("back")
+
+			
+
+			
+	}
+	function submit_func1(){
+			var text_index = sen_index+1
+			var text_str = "user_text"+text_index
+			var input_text=document.forms["my_form"][text_str].value;
+			console.log(input_text);
+			console.log("{{data}}");
+
+			if (input_text.trim()=="any transition is easier if you believe in yourself and your talent")
+			{ 
+				console.log("before");
+				console.log(dict_array[0]);
+				dict_array.push(dict);
+				//console.log(dict_array[sen_index]);
+				//console.log(sen_index);
+				console.log(dict_array[0]);
+
+				sen_index=sen_index+1;
+				text_index=text_index+1;
+				text_str = "user_text"+text_index;
+
+			
+                dict={};
+                element=document.getElementById(text_str);
+                element.disabled=false;
+
+                document.getElementById(text_str).focus();
+            	console.log("after empty dict..........")
+				console.log(dict_array[0]);
+
+				//document.getElementById("text_str").value = input_text;
+
+			}
+			else
+			{
+				alert("Please enter correct sentence");
+				dict={};
+				list_index[sen_index]=0;
+				document.getElementById(text_str).value = "";
+
+			}
+	}
+
+		function submit_func2(){
+			var text_index = sen_index+1
+			var text_str = "user_text"+text_index
+			var input_text=document.forms["my_form"][text_str].value;
+			console.log(input_text);
+			console.log("{{data}}");
+
+			if (input_text.trim()=="it does not matter how slowly you go as long as you do not stop")
+			{ 
+				console.log("before");
+				console.log(dict_array[0]);
+				dict_array.push(dict);
+				//console.log(dict_array[sen_index]);
+				//console.log(sen_index);
+				console.log(dict_array[0]);
+
+				sen_index=sen_index+1;
+				text_index=text_index+1;
+				text_str = "user_text"+text_index;
+
+			
+                dict={};
+                element=document.getElementById(text_str);
+                element.disabled=false;
+                document.getElementById(text_str).focus();
+            	console.log("after empty dict..........")
+				console.log(dict_array[0]);
+
+				//document.getElementById("text_str").value = input_text;
+
+			}
+			else
+			{
+				alert("Please enter correct sentence");
+				dict={};
+				list_index[sen_index]=0;
+				document.getElementById(text_str).value = "";
+
+			}
+	}
+	function submit_func3(){
+			var text_index = sen_index+1
+			var text_str = "user_text"+text_index
+			var input_text=document.forms["my_form"][text_str].value;
+			console.log(input_text);
+			console.log("{{data}}");
+
+			if (input_text.trim()=="we know what we are but know not what we may be")
+			{ 
+				console.log("before");
+				console.log(dict_array[0]);
+				dict_array.push(dict);
+				//console.log(dict_array[sen_index]);
+				//console.log(sen_index);
+				console.log(dict_array[0]);
+
+				sen_index=sen_index+1;
+				text_index=text_index+1;
+				text_str = "user_text"+text_index;
+
+			
+                dict={};
+                element=document.getElementById(text_str);
+                element.disabled=false;
+                document.getElementById(text_str).focus();
+            	console.log("after empty dict..........")
+				console.log(dict_array[0]);
+
+				//document.getElementById("text_str").value = input_text;
+
+			}
+			else
+			{
+				alert("Please enter correct sentence");
+				dict={};
+				list_index[sen_index]=0;
+				document.getElementById(text_str).value = "";
+
+			}
+	}
+	function submit_func4(){
+			var text_index = sen_index+1
+			var text_str = "user_text"+text_index
+			var input_text=document.forms["my_form"][text_str].value;
+			console.log(input_text);
+			console.log("{{data}}");
+
+			if (input_text.trim()=="you cant always have a good day but you can always face a bad day with a good attitude")
+			{ 
+				console.log("before");
+				console.log(dict_array[0]);
+				dict_array.push(dict);
+				//console.log(dict_array[sen_index]);
+				//console.log(sen_index);
+				console.log(dict_array[0]);
+
+				sen_index=sen_index+1;
+				text_index=text_index+1;
+				text_str = "user_text"+text_index;
+
+			
+                dict={};
+                element=document.getElementById(text_str);
+                element.disabled=false;
+                document.getElementById(text_str).focus();
+            	console.log("after empty dict..........")
+				console.log(dict_array[0]);
+
+				//document.getElementById("text_str").value = input_text;
+
+			}
+			else
+			{
+				alert("Please enter correct sentence");
+				dict={};
+				list_index[sen_index]=0;
+				document.getElementById(text_str).value = "";
+
+			}
+	}
+
+
+
+//	function fun(event){
+//		x= event.which;
+//		var up_data={'x':x};
+//		$.post(URL,up_data,function(response){
+//			if(response == 'success'){
+//				alert('Yes');
+//			}
+//		else {alert('error');
+//			}
+//		});
+
+//()==(sent.charAt(i))
+
+</script>
+</div>
+</body>
+</html>

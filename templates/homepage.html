@@ -1,0 +1,42 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>homepage</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'homepage.css' %}" > 
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+	<div class = "full">
+	<div class="bg"> </div>
+	
+	
+	<h1>Behavioural Authentication</h1>
+	<div class="tab">
+		
+		
+		<form  action="{% url 'logout' %}" method="POST">
+		{% csrf_token %}
+		<input class="loBtn" id ="11" type="submit" name="logout" value="Logout">
+		</form>
+		
+		<form action="{% url 'Log' %}" method="GET">
+		{% csrf_token %}
+		<input class="LiBtn" id ="12" type="submit" name="Log" value="Log">
+		</form>
+		
+		<form action="{% url 'Signup' %}" method="POST">
+		{% csrf_token %}
+		<input class="SiBtn" Sid ="13" type="submit" name="Signup" value="Signup">
+		</form>
+		
+		
+	</div>
+	<p>We need your help to complete the survey. Please login and type few sentences for us.</p>
+	<h2>Thankyou in Advance!</h2>
+
+	</div>
+	
+	
+</body>
+</html>

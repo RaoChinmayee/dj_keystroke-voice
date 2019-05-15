@@ -1,0 +1,70 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Result</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'thankyou.css' %}" > 
+
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" type="text/javascript"></script>
+	
+
+</head>
+<body>
+<form class="my_form" id="my_form" method="post" action="{%url 'mainpage:thankyou'%}">
+{% csrf_token %}
+<div class="full">
+  <h1 class="ty"> </h1>
+  <h1 id="res" style="margin-left: 28%; margin-top:20%;">Processing wait ..........</h1>
+  <input type="button" name="my_btn" id="my_btn"  onclick="fe_ex()" visibility="hidden" style="visibility:hidden;"/>
+</form>
+ <form action="{% url 'Log' %}" method="GET">
+		{% csrf_token %}
+		 <input type="submit" name="retry"  id="retry" value="retry"  style="margin-left: 40%; margin-top:10%;"/>
+
+		</form>
+</div>
+
+</body>
+</html>
+<script type="text/javascript">
+document.getElementById("retry").disabled=true;
+
+
+document.getElementById("my_btn").click();
+function fe_ex(){
+ up_data={ 'csrfmiddlewaretoken': "{{ csrf_token }}"};
+ 		
+     
+	  $.ajax({type:'POST',url:"{% url 'mainpage:featuresExtraction_temp' %}", data:up_data, async:false });
+	  setTimeout(function() {
+	  	 $.ajax({type:'POST',url:"{% url 'mainpage:end' %}", data:up_data, async:false ,success:function(response){
+	  	 	alert(response);
+	  	 	action(response);
+	  	 }});
+	  	}, 95000);
+	 
+	 
+
+	  function action(response){
+
+	  	if(response==1)
+	  	{
+	  		document.getElementById("res").innerHTML="Correct user";
+
+	  		 //$.ajax({type:'POST',timeout:0,url:"{% url 'Authentication1' %}", data:up_data, async:false })
+	  	}
+	  	if(response==0)
+
+	  	{    
+	  		console.log("in if fres==1")
+	  		document.getElementById("res").innerHTML="InCorrect user";
+	  		document.getElementById("retry").disabled=false;
+
+	  		 //$.ajax({type:'POST',timeout:0,url:"{% url 'Authentication' %}", data:up_data, async:false })
+	  	
+	  	}
+	  }
+}
+
+
+</script>
